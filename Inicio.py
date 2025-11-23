@@ -3,7 +3,7 @@ import numpy as np
 import tensorflow as tf
 import keras as kr
 import sklearn
-import kagglehub
+import roboflow
 
 
 ####
@@ -24,21 +24,31 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPool2D
 from keras.optimizers import RMSprop,Adam
 from keras.callbacks import ReduceLROnPlateau
+from inference_sdk import InferenceHTTPClient
 
 # Cargar MNIST y dividir en train / test
 def cargar_dataset():
 
-	path = kagglehub.dataset_download("muhammetzahitaydn/hardhat-vest-dataset-v3")
 
-	print("Path to dataset files:", path)
+	rf = roboflow.Roboflow(api_key="2H6mFahx7iQs4PczPW6E")
+	project = rf.workspace("testing-typbl").project("dataset-ppe-segmentation")
+
+	dataset = project.version(1).download("yolov8")
+	
+	CLIENT = InferenceHTTPClient(
+		api_url="https://serverless.roboflow.com",
+		api_key="2H6mFahx7iQs4PczPW6E"
+	)
+
+	# result = CLIENT.infer(r"runs\prueba.jpg", model_id="dataset-ppe-segmentation/1")
 
 	# En directory vas a insertar la dirección del dataset, el cual no esta en el repositorio por que pesa 4GB.
 	# class_names tiene los nombres de las carpetas, las cataloga automaticamente
 	# image_size creo que deberia ser (640,640)
 	# labels va a nombrar los grupos de imagenes automaticamente con numeros, sino espera una tupla de enteros. Con class names los cambia.
 	
-	
-	# directory= "A:/Escritorio/Facultad/Cuatri/TP_IA/NOSUBIR"
+
+	path = dataset.location
 	testDS= kr.preprocessing.image_dataset_from_directory(path,
 										labels='inferred',
 										label_mode='int',
@@ -48,8 +58,8 @@ def cargar_dataset():
 										image_size=(640, 640),
 										shuffle=True,
 										seed=1,
-										validation_split=None,
-										subset=None,
+										validation_split=0.2,
+										subset="validation",
 										interpolation='bilinear',
 										follow_links=False,
 										crop_to_aspect_ratio=False,
@@ -67,8 +77,8 @@ def cargar_dataset():
 										image_size=(640, 640),
 										shuffle=True,
 										seed=1,
-										validation_split=None,
-										subset=None,
+										validation_split=0.2,
+										subset="training",
 										interpolation='bilinear',
 										follow_links=False,
 										crop_to_aspect_ratio=False,
