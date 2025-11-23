@@ -3,7 +3,10 @@ import numpy as np
 import tensorflow as tf
 import keras as kr
 import sklearn
+import kagglehub
 
+
+####
 # Prefer tensorflow.keras but fall back to standalone keras if the environment or linter
 # cannot resolve tensorflow.keras (helps editors that show "Unable to import 'tensorflow.keras'").
 
@@ -16,7 +19,6 @@ from sklearn.model_selection import KFold
 
 
 from sklearn.metrics import confusion_matrix
-import itertools
 
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPool2D
@@ -26,13 +28,18 @@ from keras.callbacks import ReduceLROnPlateau
 # Cargar MNIST y dividir en train / test
 def cargar_dataset():
 
+	path = kagglehub.dataset_download("muhammetzahitaydn/hardhat-vest-dataset-v3")
 
+	print("Path to dataset files:", path)
 
 	# En directory vas a insertar la dirección del dataset, el cual no esta en el repositorio por que pesa 4GB.
 	# class_names tiene los nombres de las carpetas, las cataloga automaticamente
 	# image_size creo que deberia ser (640,640)
 	# labels va a nombrar los grupos de imagenes automaticamente con numeros, sino espera una tupla de enteros. Con class names los cambia.
-	testDS= kr.preprocessing.image_dataset_from_directory(directory= "A:/Escritorio/Facultad/Cuatri/TP_IA/NOSUBIR",
+	
+	
+	# directory= "A:/Escritorio/Facultad/Cuatri/TP_IA/NOSUBIR"
+	testDS= kr.preprocessing.image_dataset_from_directory(path,
 										labels='inferred',
 										label_mode='int',
 										class_names=None,
@@ -51,7 +58,7 @@ def cargar_dataset():
 										verbose=True
 		)
 	
-	trainDS= kr.preprocessing.image_dataset_from_directory(directory= "A:/Escritorio/Facultad/Cuatri/TP_IA/NOSUBIR",
+	trainDS= kr.preprocessing.image_dataset_from_directory(path,
 										labels='inferred',
 										label_mode='int',
 										class_names=None,
