@@ -3,11 +3,11 @@ import cv2
 
 def training(model):
     path = r"A:\Escritorio\Facultad\Cuatri\TP_IA\IA-CNN-Bounding-Boxes-EPP\Dataset-PPE-(Segmentation)-1\data.yaml"
-    results = model.train(data=path, epochs=100, imgsz=640, batch=8,name='mi_modelo_epp',device = 'cpu', save=True, resume=True)
+    results = model.train(data=path, epochs=100, imgsz=640, batch=8,name='mi_modelo_epp',device = 'cpu', save=True, resume=False)
 
 
 def prediction(model):
-    path = r"A:\Escritorio\Facultad\Cuatri\TP_IA\IA-CNN-Bounding-Boxes-EPP\runs\prueba.jpg"
+    path = r"A:\Escritorio\Facultad\Cuatri\TP_IA\IA-CNN-Bounding-Boxes-EPP\runs\PRUEBA1.jpg"
     resultados = model.predict(source=path, show=True, save=True)
 
     # 3. Procesar los resultados
@@ -25,9 +25,10 @@ def prediction(model):
 
 # 1. Cargar el modelo preentrenado de segmentación
 # Automáticamente descargará el archivo si no lo tienes
-training(YOLO('yolov8n-seg.pt'))
 
-# prediction(YOLO('yolov8n-seg.pt'))
+
+training(YOLO('yolov8x-seg.pt'))
+# prediction(YOLO('yolov8x-seg.pt'))
 
 # 2. Realizar la inferencia en una imagen
 # source puede ser '0' para webcam, una ruta de imagen, o un video
