@@ -30,7 +30,7 @@ from inference_sdk import InferenceHTTPClient
 def cargar_dataset():
 
 
-	rf = roboflow.Roboflow(api_key="2H6mFahx7iQs4PczPW6E")
+	rf = roboflow.Roboflow(api_key="FGX62b8sGJ3GCSKHG3vg")
 	project = rf.workspace("testing-typbl").project("dataset-ppe-segmentation")
 
 	dataset = project.version(1).download("yolov8")
