@@ -1,21 +1,18 @@
-
-
 from ultralytics import YOLO
-data = r"C:\Users\tomas\IA-CNN-Bounding-Boxes-EPP\Dataset PPE -Segmentation-.v1-first.yolov8\data.yaml"
+data = r"C:\Users\tomas\IA-CNN-Bounding-Boxes-EPP\Dataset PPE -Segmentation-.v1-first.yolov8\data.yaml" #direccion del dataset correspondiente 
 def main():
-    # 1. Cargar el modelo base
-    # Usamos la versión "Nano" de segmentación para empezar (es rápido)
-    model = YOLO('yolov8m-seg.pt')
+   
+    model = YOLO('yolov8s-seg.pt')#aca dependiendo el modelo que quiere lo cambio 
 
-    # 2. Entrenar el modelo
+
     print("Iniciando entrenamiento...")
     results = model.train(
-        data=data , # <--- REVISA QUE ESTA RUTA SEA CORRECTA
-        epochs=50,                # 50 vueltas completas al dataset
-        imgsz=640,                # Tamaño de imagen estándar
-        batch=8,                  # Cuántas fotos procesa a la vez (bájalo si te quedas sin memoria)
-        name='mi_modelo_epp_v2',     # Nombre de la carpeta de resultados
-        device='0'                # Usa '0' si tienes GPU NVIDIA, o 'cpu' si no tienes
+        data=data ,
+        epochs=50,                
+        imgsz=640,                
+        batch=8,                  
+        name='mi_modelo_epp_small',
+        device='0'                
     )
 
 if __name__ == '__main__':
